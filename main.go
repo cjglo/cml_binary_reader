@@ -22,32 +22,42 @@ func main() {
 	if err != nil {
 		fmt.Printf("%v", err)
 	} else {
-		// * BINARY CONVERSION STARTS HERE
-		bit_counter := -1 // counts expontent of 2 of each bit
-		sum := 0          // running byte sum
-		converted_string := ""
-		for i := len(data) - 1; i >= 0; i-- {
-			digit := string(rune(data[i]))
-			bit_counter++
+		// if a 2nd arguement was supplied then we are converting characters to BINARY
+		// binary to characters is the default
+		if len(argArray) < 2 {
 
-			curr_bit := math.Exp2(float64(bit_counter))
+			// * BINARY CONVERSION STARTS HERE
+			bit_counter := -1 // counts expontent of 2 of each bit
+			sum := 0          // running byte sum
+			converted_string := ""
+			for i := len(data) - 1; i >= 0; i-- {
+				digit := string(rune(data[i]))
+				bit_counter++
 
-			if digit == "1" {
-				sum += int(curr_bit)
+				curr_bit := math.Exp2(float64(bit_counter))
+
+				if digit == "1" {
+					sum += int(curr_bit)
+				}
+
+				if bit_counter == 7 {
+
+					bit_counter = -1 // starts at -1 so is 0 at beginnign of loop
+
+					converted_string = string(sum) + converted_string
+					sum = 0
+
+				}
+
 			}
+			// * Prints to stdout here, in future add file write
+			fmt.Printf("%v \n", converted_string)
 
-			if bit_counter == 7 {
+		} else {
 
-				bit_counter = -1 // starts at -1 so is 0 at beginnign of loop
-
-				converted_string = string(sum) + converted_string
-				sum = 0
-
-			}
+			fmt.Printf("NOT IMPLEMENTED! \n\n")
 
 		}
-		// ! PRODUCE OUTPUT AND WRITE IN FILE
-		fmt.Println("", converted_string)
 	}
 
 }
